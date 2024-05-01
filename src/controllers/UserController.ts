@@ -67,13 +67,16 @@ class ListUserController {
 class LoginUserController {
   async handle(req: Request, res: Response) {
     const loginUserService = new LoginUserService();
-    const { email, password } = req.body as { email: string; password: string };
+    const { email, password } = req.body.data as {
+      email: string;
+      password: string;
+    };
 
     try {
       const login = await loginUserService.execute({ email, password });
       res.status(200).json(login);
-    } catch (err) {
-      res.status(500).json({ message: "Error on login" });
+    } catch (err: any) {
+      res.status(500).json({ message: err.message });
     }
   }
 }

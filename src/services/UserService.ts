@@ -92,13 +92,17 @@ class LoginUserService {
         email: email,
       },
     });
+    if (!user) {
+      throw new Error("Usuario nao cadastrado!");
+    }
     const hashedPassword = user?.password || "";
 
     if (await bcrypt.compare(password, hashedPassword)) {
       const token = jwt.sign({ email }, SECRET_KEY);
       return { token: token };
+    } else {
+      throw new Error("Senha invalida");
     }
-    return false;
   }
 }
 
