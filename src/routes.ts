@@ -1,28 +1,40 @@
-import { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
-import { CreateUserController, DeleteUserController, ListUserController, LoginUserController } from "./controllers/UserController";
-import { CreateSpentController, GetSpentController } from "./controllers/SpentController";
+import express, { Express } from "express";
+import {
+  CreateUserController,
+  ListUserController,
+  DeleteUserController,
+  LoginUserController,
+} from "./controllers/UserController";
+import {
+  CreateSpentController,
+  GetSpentController,
+} from "./controllers/SpentController";
 
-export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
-    fastify.get("/", async (req: FastifyRequest, res: FastifyReply) => {
-        return {ok: true}
-    })
-    fastify.post("/register", async (req: FastifyRequest, res: FastifyReply) => {
-        return new CreateUserController().handle(req, res)
-    })
-    fastify.get("/users", async (req: FastifyRequest, res: FastifyReply) => {
-        return new ListUserController().handle(req, res)
-    })
-    fastify.delete("/user", async (req: FastifyRequest, res: FastifyReply) => {
-        return new DeleteUserController().handle(req, res)
-    }) 
-    
-    fastify.post("/spent", async (req: FastifyRequest, res: FastifyReply) => {
-        return new CreateSpentController().handle(req, res)
-    })
-    fastify.get("/spent", async (req: FastifyRequest, res: FastifyReply) => {
-        return new GetSpentController().handle(req, res)
-    })
-    fastify.post("/login", async (req: FastifyRequest, res: FastifyReply) => {
-        return new LoginUserController().handle(req, res)
-    })
-}
+const routes = express.Router();
+routes.post("/register", (req, res) => {
+  return new CreateUserController().handle(req, res);
+});
+routes.get("/users", (req, res) => {
+  return new ListUserController().handle(req, res);
+});
+routes.delete("/user", (req, res) => {
+  return new DeleteUserController().handle(req, res);
+});
+routes.post("/spent", (req, res) => {
+  return new CreateSpentController().handle(req, res);
+});
+routes.get("/spent", (req, res) => {
+  return new GetSpentController().handle(req, res);
+});
+routes.post("/login", (req, res) => {
+  return new LoginUserController().handle(req, res);
+});
+
+const routesController = (app: Express) => {
+  app.route("/").get((_, res) => {
+    res.status(200).send("Rota funcionando!");
+  });
+  app.use(express.json(), routes);
+};
+
+export default routesController;
