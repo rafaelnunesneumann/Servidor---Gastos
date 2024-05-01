@@ -22,7 +22,10 @@ async function authenticateToken(req: Request, res: Response, next: Function) {
 
 class CreateUserController {
   async handle(req: Request, res: Response) {
-    const { email, password } = req.body as { email: string; password: string };
+    const { email, password } = req.body.data as {
+      email: string;
+      password: string;
+    };
 
     const userService = new CreateUserService();
     try {
