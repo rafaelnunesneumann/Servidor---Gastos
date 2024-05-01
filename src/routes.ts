@@ -4,6 +4,7 @@ import {
   ListUserController,
   DeleteUserController,
   LoginUserController,
+  AuthUserController,
 } from "./controllers/UserController";
 import {
   CreateSpentController,
@@ -28,6 +29,9 @@ routes.get("/spent", (req, res) => {
 });
 routes.post("/login", (req, res) => {
   return new LoginUserController().handle(req, res);
+});
+routes.get("/auth", (req, res) => {
+  return new AuthUserController().handle(req, res);
 });
 
 const routesController = (app: Express) => {
