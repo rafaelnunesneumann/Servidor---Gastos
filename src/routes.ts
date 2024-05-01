@@ -6,7 +6,7 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     fastify.get("/", async (req: FastifyRequest, res: FastifyReply) => {
         return {ok: true}
     })
-    fastify.post("/user", async (req: FastifyRequest, res: FastifyReply) => {
+    fastify.post("/register", async (req: FastifyRequest, res: FastifyReply) => {
         return new CreateUserController().handle(req, res)
     })
     fastify.get("/users", async (req: FastifyRequest, res: FastifyReply) => {
