@@ -1,23 +1,30 @@
 import prismaClient from "../prisma";
+import bcrypt from "bcrypt";
+import jwt, { Secret } from "jsonwebtoken";
+
+const SECRET_KEY: Secret = process.env.SECRET_KEY || '0';
+
+
 
 interface CreateUserProps {
-    username: string,
+    email: string,
     password: string
 }
 
 class CreateUserService {
     
-    async execute({username, password} : CreateUserProps) {
-        if (!username || !password) {
+    async execute({email, password} : CreateUserProps) {
+        if (!email || !password) {
             throw new Error("Preencha todos os campos")
         }
 
-        username = username.toLowerCase()
+        email = email.toLowerCase()
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await prismaClient.user.create({
             data: {
-                username,
-                password,
+                email,
+                password: hashedPassword,
                 status: true
             }
         })
@@ -69,4 +76,28 @@ class ListUserService {
     }
 }
 
-export {CreateUserService, DeleteUserService, ListUserService}
+class LoginUserService {
+    
+    async execute({email, password} : CreateUserProps) {
+        if (!email || !password) {
+            throw new Error("Preencha todos os campos")
+        }
+
+        email = email.toLowerCase()
+        const user = await prismaClient.user.findUnique({
+            where: {
+                email: email,
+            }
+        })
+        const hashedPassword = user?.password || '';
+
+
+        if (await bcrypt.compare(password, hashedPassword)) {
+            const token = jwt.sign({ email }, SECRET_KEY);
+            return {token: token}
+        }
+        return false
+    }
+}
+
+export {CreateUserService, DeleteUserService, ListUserService, LoginUserService}
