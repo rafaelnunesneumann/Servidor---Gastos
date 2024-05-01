@@ -81,9 +81,29 @@ class LoginUserController {
   }
 }
 
+class AuthUserController {
+  async handle(req: Request, res: Response) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (token == null) {
+      res.status(401).send({ error: "Token invalido" });
+      throw new Error("Token invalido");
+    }
+
+    jwt.verify(token, SECRET_KEY, (err) => {
+      if (err) {
+        res.status(403).json({ error: "Token invalido" });
+        throw new Error("Token invalido");
+      }
+      res.status(200).json({ message: "Token validado com sucesso!" });
+    });
+  }
+}
+
 export {
   CreateUserController,
   DeleteUserController,
   ListUserController,
   LoginUserController,
+  AuthUserController,
 };
