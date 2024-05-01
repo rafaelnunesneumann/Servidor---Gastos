@@ -19,6 +19,12 @@ class CreateUserService {
         }
 
         email = email.toLowerCase()
+
+        const existingUser = await prismaClient.user.findUnique({ where: { email } });
+        if (existingUser) {
+            throw new Error("E-mail ja cadastrado");
+        }
+        
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await prismaClient.user.create({
