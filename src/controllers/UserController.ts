@@ -83,20 +83,21 @@ class LoginUserController {
 
 class AuthUserController {
   async handle(req: Request, res: Response) {
+    let response = false;
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
     if (token == null) {
-      res.status(401).send({ error: "Token invalido" });
-      return
+      return false;
     }
 
     jwt.verify(token, SECRET_KEY, (err) => {
       if (err) {
-        res.status(403).json({ error: "Token invalido" });
-        return;
+        response = false;
+      } else {
+        response = true;
       }
-      res.status(200).json({ message: "Token validado com sucesso!" });
     });
+    return response;
   }
 }
 
