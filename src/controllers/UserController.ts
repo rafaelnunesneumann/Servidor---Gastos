@@ -87,13 +87,13 @@ class AuthUserController {
     const token = authHeader && authHeader.split(" ")[1];
     if (token == null) {
       res.status(401).send({ error: "Token invalido" });
-      throw new Error("Token invalido");
+      return
     }
 
     jwt.verify(token, SECRET_KEY, (err) => {
       if (err) {
         res.status(403).json({ error: "Token invalido" });
-        throw new Error("Token invalido");
+        return;
       }
       res.status(200).json({ message: "Token validado com sucesso!" });
     });

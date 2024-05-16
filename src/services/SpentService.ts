@@ -5,12 +5,14 @@ import prismaClient from "../prisma";
 interface CreateSpentProps {
     userId: string;
     value: number;
+    type: string,
+    icon: string
 }
 
 class CreateSpentService {
     
-    async execute({ userId, value }: CreateSpentProps) {
-        if (!userId || !value) {
+    async execute({ userId, value, type, icon }: CreateSpentProps) {
+        if (!userId || !value || !type || !icon) {
             throw new Error("Preencha todos os campos");
         }
 
@@ -25,6 +27,8 @@ class CreateSpentService {
         const gasto = await prismaClient.gasto.create({
             data: {
                 value,
+                type,
+                icon,
                 user: {
                     connect: { id: userId }
                 }
