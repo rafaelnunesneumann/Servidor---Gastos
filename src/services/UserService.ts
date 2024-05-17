@@ -99,7 +99,7 @@ class LoginUserService {
 
     if (await bcrypt.compare(password, hashedPassword)) {
       const token = jwt.sign({ email }, SECRET_KEY);
-      return { token: token };
+      return { token: token, id: user.id };
     } else {
       throw new Error("Senha invalida");
     }

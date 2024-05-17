@@ -23,8 +23,7 @@ class CreateSpentController {
 
 class GetSpentController {
   async handle(req: Request, res: Response) {
-    const auth = await new AuthUserController().handle(req, res);
-    console.log(auth);
+    const auth = await new AuthUserController().isAuthorized(req, res);
     if (auth) {
       const { userId } = req.query as { userId: string };
 
