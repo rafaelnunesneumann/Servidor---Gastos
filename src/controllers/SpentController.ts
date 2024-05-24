@@ -38,6 +38,22 @@ class GetSpentController {
       res.status(500).json({ message: "Error on authentication" });
     }
   }
+  async getTodaySpents(req: Request, res: Response) {
+    const auth = await new AuthUserController().isAuthorized(req, res);
+    if (auth) {
+      const { userId } = req.query as { userId: string };
+
+      const spentService = new GetSpentService();
+      try {
+        const spent = await spentService.getTodaySpents(userId);
+        res.status(200).json(spent);
+      } catch (err) {
+        res.status(500).json({ message: "Error on getting spents" });
+      }
+    } else {
+      res.status(500).json({ message: "Error on authentication" });
+    }
+  }
 }
 
 export { CreateSpentController, GetSpentController };

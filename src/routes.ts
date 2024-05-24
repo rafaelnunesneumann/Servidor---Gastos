@@ -27,6 +27,9 @@ routes.post("/spent", (req, res) => {
 routes.get("/spent", (req, res) => {
   return new GetSpentController().handle(req, res);
 });
+routes.get("/todayspents", (req, res) => {
+  return new GetSpentController().getTodaySpents(req, res);
+});
 routes.post("/login", (req, res) => {
   return new LoginUserController().handle(req, res);
 });
