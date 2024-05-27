@@ -37,6 +37,18 @@ class CreateUserService {
   }
 }
 
+class GetUserService {
+  async execute(id: string) {
+    if (!id) {
+      throw new Error("Preencha todos os campos");
+    }
+    const getUser = await prismaClient.user.findUnique({
+      where: { id },
+    });
+    return getUser;
+  }
+}
+
 interface DeleteCustomerProps {
   id: string;
 }
@@ -111,4 +123,5 @@ export {
   DeleteUserService,
   ListUserService,
   LoginUserService,
+  GetUserService,
 };

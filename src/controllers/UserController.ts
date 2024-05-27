@@ -81,45 +81,9 @@ class LoginUserController {
   }
 }
 
-class AuthUserController {
-  async handle(req: Request, res: Response) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    if (token == null) {
-      res.status(501).send({ message: "Erro na autenticacao" });
-      return;
-    }
-    jwt.verify(token, SECRET_KEY, (err) => {
-      if (err) {
-        res.status(500).send({ message: "Erro na autenticacao" });
-      }
-      res.status(200).send({ token: token });
-    });
-  }
-
-  async isAuthorized(req: Request, res: Response) {
-    let response = false;
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    if (token == null) {
-      return false;
-    }
-
-    jwt.verify(token, SECRET_KEY, (err) => {
-      if (err) {
-        response = false;
-      } else {
-        response = true;
-      }
-    });
-    return response;
-  }
-}
-
 export {
   CreateUserController,
   DeleteUserController,
   ListUserController,
   LoginUserController,
-  AuthUserController,
 };
