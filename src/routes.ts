@@ -11,8 +11,7 @@ import {
 } from "./controllers/SpentController";
 import { Request, Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
-import { GetUserService } from "./services/UserService";
-
+import { GetUserService } from "./services/UserService/GetUser";
 const SECRET_KEY: Secret = process.env.SECRET_KEY || "0";
 
 const validationBase = (req: Request, res: Response, next: Function) => {
