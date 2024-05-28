@@ -1,9 +1,7 @@
-import {
-  CreateUserService,
-  DeleteUserService,
-  ListUserService,
-  LoginUserService,
-} from "../services/UserService";
+import { CreateUserService } from "../services/UserService/CreateUser";
+import { DeleteUserService } from "../services/UserService/DeleteUser";
+import { ListUserService } from "../services/UserService/ListUser";
+import { LoginUserService } from "../services/UserService/LoginUser";
 import jwt, { Secret } from "jsonwebtoken";
 import { Request, Response } from "express";
 
@@ -43,7 +41,7 @@ class DeleteUserController {
     const deleteUserService = new DeleteUserService();
 
     try {
-      const user = await deleteUserService.execute({ id });
+      const user = await deleteUserService.execute(id);
       res.status(200).json(user);
     } catch (err) {
       res.status(500).json({ message: "Error deleting user", user: id });

@@ -1,4 +1,5 @@
-import { CreateSpentService, GetSpentService } from "../services/SpentService";
+import { CreateSpentService } from "../services/SpentService/CreateSpent";
+import { GetSpentService } from "../services/SpentService/GetSpent";
 import { Request, Response } from "express";
 
 class CreateSpentController {
