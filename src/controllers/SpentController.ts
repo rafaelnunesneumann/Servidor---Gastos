@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 class CreateSpentController {
   async handle(req: Request, res: Response) {
-    const { value, type, icon } = req.body.data as {
+    const { value, type, icon } = req.body as {
       value: number;
       type: string;
       icon: string;
