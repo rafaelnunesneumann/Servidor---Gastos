@@ -59,8 +59,8 @@ routes.post("/spent", validationBase, (req, res) => {
 routes.get("/spent", validationBase, (req, res) => {
   return new GetSpentController().handle(req, res);
 });
-routes.get("/todayspents", validationBase, (req, res) => {
-  return new GetSpentController().getTodaySpents(req, res);
+routes.get("/monthspents", validationBase, (req, res) => {
+  return new GetSpentController().getMonthSpents(req, res);
 });
 routes.post("/login", (req, res) => {
   return new LoginUserController().handle(req, res);

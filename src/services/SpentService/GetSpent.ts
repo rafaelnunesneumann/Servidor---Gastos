@@ -15,7 +15,7 @@ class GetSpentService {
     return user.gastos;
   }
 
-  async getTodaySpents(userId: string) {
+  async getMonthSpents(userId: string) {
     // Verifica se o usuário existe
     const user = await prismaClient.user.findUnique({
       where: { id: userId },
@@ -26,7 +26,6 @@ class GetSpentService {
     }
 
     const now = new Date();
-    const currentDay = now.getDate();
     const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
 
@@ -40,7 +39,6 @@ class GetSpentService {
       if (gasto.created_at) {
         const gastoDate = new Date(gasto.created_at);
         return (
-          gastoDate.getDate() === currentDay &&
           gastoDate.getMonth() + 1 === currentMonth &&
           gastoDate.getFullYear() === currentYear
         );

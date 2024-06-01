@@ -33,12 +33,12 @@ class GetSpentController {
       res.status(500).json({ message: "Error on getting spents" });
     }
   }
-  async getTodaySpents(req: Request, res: Response) {
+  async getMonthSpents(req: Request, res: Response) {
     const { userId } = req.query as { userId: string };
 
     const spentService = new GetSpentService();
     try {
-      const spent = await spentService.getTodaySpents(userId);
+      const spent = await spentService.getMonthSpents(userId);
       res.status(200).json(spent);
     } catch (err) {
       res.status(500).json({ message: "Error on getting spents" });
